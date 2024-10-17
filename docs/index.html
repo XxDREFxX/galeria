@@ -1,0 +1,75 @@
+<html>
+<head>
+<title>Galeria</title>
+<script type="text/javascript">
+var zdjecia = Array(
+    Array('seat.jpg', 'seat.jpg', 'Krzesło', 'Stoi na 4 nogach'),
+    Array('balon.jpg', 'balon.jpg', 'Balony', 'Potrafią latać'),
+    Array('lodz.jpg', 'lodz.jpg', 'Łódki', 'Napewno nie utoną'),
+    Array('zyrafy.jpg', 'zyrafy.jpg', 'Żyrafy', 'Jakie one słodkie')
+);
+ 
+var max_width = 520;
+var randomized = 0
+function laduj() {
+    zmien(0);
+}
+ 
+function zmien(id) {
+    document.getElementById('zdjecie').innerHTML += '<div id="ladowanie"></div>';
+    var custom = '';
+    var preload = new Image();
+    preload.onload = function() {
+        if(preload.width > max_width)
+            custom = ' style="height: '+(Math.floor(max_width / (preload.width / preload.height)))+'px;width:'+max_width+'px;"';
+ 
+        document.getElementById('informacje').innerHTML = '<b>'+zdjecia[id][2]+'</b><br /><i>'+zdjecia[id][3]+'</i>';
+        document.getElementById('zdjecie').innerHTML = '<img src="'+zdjecia[id][0]+'"'+custom+' />';
+    }
+    preload.src = zdjecia[id][0];
+}
+function losuj(){
+    var i = randomized;
+    while(i==randomized)
+    {
+        i = Math.floor(Math.random() * (zdjecia.length+1))
+    }
+    randomized = i
+    zmien(i)
+}
+window.onload = laduj;
+</script>
+<style type="text/css">
+#ladowanie {
+    display: block;
+    position: absolute;
+    top: 0;
+    _top: 50%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+body{
+    background-color: mediumaquamarine;
+}
+#zdjecie {
+    width: 520px;
+    position: relative;
+}
+
+#miniaturki img {
+    margin: 5px;
+    cursor: pointer;
+    max-width: 260px;
+}
+</style>
+</head>
+<body>
+    <center>
+    <h2>Galeria</h2>
+    <div id="informacje"></div>
+    <div id="zdjecie"></div>
+    <div id="miniaturki"></div>
+    <button name="Losuj" onclick="losuj()">Losuj</button>
+</body>
+</html>
